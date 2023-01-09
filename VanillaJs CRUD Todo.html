@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #UpdateForm
+        {
+        display: none;
+        }
+        .mytodo-list
+        {
+            width: 320px;
+            margin:100px auto;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <section class="mytodo-container">
+            <!-- Create Form -->
+            <div class="mytodo-list">
+            <form action="javascript:void(0);" id="CreateForm"><input type="text" id="add-task" placeholder="New Task"> <input type="submit" onclick="CreateTask()" value="Create"></form>
+            <!-- Update Form -->
+             <form action="javascript:void(0);" id="UpdateForm"> 
+             <input type="text" id="update-task"> <input type="submit" value="Update"><a onclick="CloseInput()" id="close">&#10006</a></form>
+             <!--Counter-->
+             <p id="counter"></p>
+             <table>
+                <tr><th>My Todo List</th></tr>
+                <tbody id="mytodo-tasks"></tbody>
+             </table>
+
+        </div>
+    </section>
+    <script>
+        var mytodo_list=["Do Execise","Breakfast","Work"];
+        ReadAllTask();
+        function CreateTask()
+        {
+var Task=document.getElementById("add-task").value;
+mytodo_list.push(Task);
+ReadAllTask();
+ }
+function ReadAllTask()
+{
+    var data="";
+    for(var i=0;i<mytodo_list.length;i++)
+    {
+        data+="<tr>"
+        data+="<td>"+mytodo_list[i]+"</td>";
+        data+="<td><button onclick=UpdateTask("+i+")>Update</button>"
+        data+="<td><button onclick=DeleteTask("+i+")>Delete</button>"
+        data+="</tr>"
+    }
+    document.getElementById("counter").innerHTML=mytodo_list.length+" Task";
+    document.getElementById("mytodo-tasks").innerHTML=data;
+}
+function UpdateTask(item)
+{
+document.getElementById("UpdateForm").style.display="block";
+document.getElementById("update-task").value=mytodo_list[item];
+document.getElementById("UpdateForm").onsubmit=function()
+{
+    var task=document.getElementById("update-task").value;
+    mytodo_list.splice(item,1,task.trim());
+    ReadAllTask();
+    CloseInput();
+}
+}
+function DeleteTask(item)
+{
+    mytodo_list.splice(item,1);
+    ReadAllTask();
+}
+function CloseInput()
+{
+    document.getElementById("UpdateForm").style.display="none";
+    
+}
+    </script>
+</body>
+</html>
