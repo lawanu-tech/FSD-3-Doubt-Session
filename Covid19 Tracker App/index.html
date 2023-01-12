@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covid19 Tracker</title>
+    <style>
+        *{
+        padding: 0;
+        margin: 0;
+        font-family: sans-serif;
+        
+    }
+  
+    .container
+    {  
+        width: 1200px;
+        margin: 0 auto;
+    }
+    .tracker
+    {display:grid ;
+    justify-content: center;
+    }
+    .tracker h2
+    {   padding: 1rem;
+        text-align: center;
+    }
+    .content-table
+    {
+     
+        border-collapse: collapse;
+        border-radius: 5px;
+        overflow: hidden;
+       margin: 25px 0;
+       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+    .content-table th,
+    .content-table td
+    {
+        padding: 12px 15px;
+        text-align: center;
+
+    }
+    .content-table thead tr
+    {
+        background-color: #009879;
+        color: white;
+        font-weight: bold;
+    }
+    .content-table tbody tr
+    {    background-color: #f3f3f3;
+        border-bottom: 1px solid #009879;
+    }
+   #data-refresh
+   {
+       padding: 5px 0;
+       background-color:#009879 ;
+       border-radius: 5px;
+    color: white;
+    font-weight: bold;
+   }
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tracker">
+        <h2>Covid-19 India Updates</h2>
+<table class="content-table">
+    <thead>
+    <tr>
+    <th>Total Cases</th>
+    <th>Total Deaths</th>
+    <th>Total Recovered</th>
+    </tr>
+</thead>
+<tbody>
+    <tr id="covid19_data">
+        
+    </tr>
+</tbody>
+</table>
+<button id="data-refresh" onclick="refreshData()">Refresh Data</button>
+</div>
+</div>
+<script>
+    let data_table=document.getElementById("covid19_data");
+    console.log(fetch("https://api.covid19api.com/summary"));
+    function FetchData(){fetch("https://data.covid19india.org/data.json")
+    .then(res=>res.json())
+    .then(data=> 
+    data_table.innerHTML=
+    `<td>${data.statewise[0].confirmed}</td>
+    <td>${data.statewise[0].deaths}</td>
+    <td>${data.statewise[0].recovered}</td>`
+    ).catch((message)=>{console.log("Error"+message)});}
+    FetchData();
+    function refreshData()
+    {    data_table.innerHTML=``;
+         FetchData();
+    }
+</script>
+</body>
+</html>
